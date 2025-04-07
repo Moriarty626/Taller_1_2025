@@ -78,15 +78,15 @@ void Aplicacion::cargarCancionesCSV(const string& nombreArchivo) {
         int reproducciones = std::stoi(reproduccionesStr);
 
         Cancion nuevaCancion(id, albumId, titulo, reproducciones, duracion);
-        // Aquí podrías insertarla en una lista si tienes una estructura como listaCanciones
+       // listaCanciones.agregarCancion(nuevaCancion); Esto debo arreglarlo
     }
 
     archivo.close();
 }
 
 void Aplicacion::cargarDatos() {
-    cargarAlbumesCSV("albumes.csv");
-    cargarCancionesCSV("canciones.csv");
+    cargarAlbumesCSV("D:/Taller_1_2025/albumes.csv");
+    cargarCancionesCSV("C:/Taller_1_2025/canciones.csv");
     cout << "Datos cargados correctamente.\n";
 }
 
@@ -99,7 +99,7 @@ void Aplicacion::mostrarMenu() {
     int opcion;
 
     do {
-        cout << "\n==== MENÚ PRINCIPAL ====\n";
+        cout << "\n==== MENU PRINCIPAL ====\n";
         cout << "1. Mostrar album\n";
         cout << "2. Busqueda avanzada de canciones\n";
         cout << "3. Eliminar album\n";

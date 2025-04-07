@@ -7,6 +7,8 @@ add_executable(Taller_1_2025 main.cpp
         Aplicacion.h
         Aplicacion.cpp
         Album.h
+        canciones.csv
+        albumes.csv
         Album.cpp
         Cancion.h
         Cancion.cpp

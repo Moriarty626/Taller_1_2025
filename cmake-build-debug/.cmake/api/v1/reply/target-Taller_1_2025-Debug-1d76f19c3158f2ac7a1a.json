@@ -54,10 +54,10 @@
 			[
 				0,
 				2,
-				4,
 				6,
 				8,
-				10
+				10,
+				12
 			]
 		}
 	],
@@ -96,10 +96,10 @@
 			[
 				0,
 				2,
-				4,
 				6,
 				8,
-				10
+				10,
+				12
 			]
 		},
 		{
@@ -108,9 +108,17 @@
 			[
 				1,
 				3,
-				5,
 				7,
-				9
+				9,
+				11
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				4,
+				5
 			]
 		}
 	],
@@ -137,6 +145,16 @@
 			"backtrace" : 1,
 			"path" : "Album.h",
 			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "canciones.csv",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : "albumes.csv",
+			"sourceGroupIndex" : 2
 		},
 		{
 			"backtrace" : 1,

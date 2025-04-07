@@ -3,7 +3,6 @@
 int main() {
     Aplicacion app;
     app.ejecutar();
-
     return 0;
 }
 

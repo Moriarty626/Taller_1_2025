@@ -11,7 +11,7 @@ private:
     Lista_Enlazada_Canciones listaCanciones;  // Estructura para almacenar canciones
 
     void cargarAlbumesCSV(const std::string &nombreArchivo);
-    void cargarCancionesCSV(const std::string &nombreArchivo);
+    static void cargarCancionesCSV(const std::string &nombreArchivo);
     void mostrarMenu();  // Menú interactivo para el usuario
 
 public:
