@@ -1,0 +1,3 @@
+D:/Taller_1_2025/cmake-build-debug/CMakeFiles/Taller_1_2025.dir
+D:/Taller_1_2025/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Taller_1_2025/cmake-build-debug/CMakeFiles/rebuild_cache.dir
