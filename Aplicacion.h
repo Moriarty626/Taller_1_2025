@@ -1,5 +1,9 @@
 #ifndef APLICACION_H
 #define APLICACION_H
+#include "Cancion.h"
+#include "Album.h"
+#include "Lista_Enlazada_Albums.h"
+#include "Lista_Enlazada_Canciones.h"
 using namespace std;
 class Aplicacion {
 private:

@@ -67,6 +67,24 @@ build CMakeFiles/Taller_1_2025.dir/Album.cpp.obj: CXX_COMPILER__Taller_1_2025_un
   OBJECT_DIR = CMakeFiles\Taller_1_2025.dir
   OBJECT_FILE_DIR = CMakeFiles\Taller_1_2025.dir
 
+build CMakeFiles/Taller_1_2025.dir/Cancion.cpp.obj: CXX_COMPILER__Taller_1_2025_unscanned_Debug D$:/Taller_1_2025/Cancion.cpp || cmake_object_order_depends_target_Taller_1_2025
+  DEP_FILE = CMakeFiles\Taller_1_2025.dir\Cancion.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Taller_1_2025.dir
+  OBJECT_FILE_DIR = CMakeFiles\Taller_1_2025.dir
+
+build CMakeFiles/Taller_1_2025.dir/Lista_Enlazada_Albums.cpp.obj: CXX_COMPILER__Taller_1_2025_unscanned_Debug D$:/Taller_1_2025/Lista_Enlazada_Albums.cpp || cmake_object_order_depends_target_Taller_1_2025
+  DEP_FILE = CMakeFiles\Taller_1_2025.dir\Lista_Enlazada_Albums.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Taller_1_2025.dir
+  OBJECT_FILE_DIR = CMakeFiles\Taller_1_2025.dir
+
+build CMakeFiles/Taller_1_2025.dir/Lista_Enlazada_Canciones.cpp.obj: CXX_COMPILER__Taller_1_2025_unscanned_Debug D$:/Taller_1_2025/Lista_Enlazada_Canciones.cpp || cmake_object_order_depends_target_Taller_1_2025
+  DEP_FILE = CMakeFiles\Taller_1_2025.dir\Lista_Enlazada_Canciones.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Taller_1_2025.dir
+  OBJECT_FILE_DIR = CMakeFiles\Taller_1_2025.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Taller_1_2025
@@ -75,7 +93,7 @@ build CMakeFiles/Taller_1_2025.dir/Album.cpp.obj: CXX_COMPILER__Taller_1_2025_un
 #############################################
 # Link the executable Taller_1_2025.exe
 
-build Taller_1_2025.exe: CXX_EXECUTABLE_LINKER__Taller_1_2025_Debug CMakeFiles/Taller_1_2025.dir/main.cpp.obj CMakeFiles/Taller_1_2025.dir/Aplicacion.cpp.obj CMakeFiles/Taller_1_2025.dir/Album.cpp.obj
+build Taller_1_2025.exe: CXX_EXECUTABLE_LINKER__Taller_1_2025_Debug CMakeFiles/Taller_1_2025.dir/main.cpp.obj CMakeFiles/Taller_1_2025.dir/Aplicacion.cpp.obj CMakeFiles/Taller_1_2025.dir/Album.cpp.obj CMakeFiles/Taller_1_2025.dir/Cancion.cpp.obj CMakeFiles/Taller_1_2025.dir/Lista_Enlazada_Albums.cpp.obj CMakeFiles/Taller_1_2025.dir/Lista_Enlazada_Canciones.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Taller_1_2025.dir

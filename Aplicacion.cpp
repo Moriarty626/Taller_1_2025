@@ -2,90 +2,92 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "Cancion.h"
+#include "Album.h"
+#include "Lista_Enlazada_Canciones.h"
+#include "Lista_Enlazada_Albums.h"
+
 using std::cout;
 using std::cin;
+using std::cerr;
+using std::string;
 
 // Constructor
 Aplicacion::Aplicacion() {}
 
-void Aplicacion::cargarAlbumesCSV(const std::string &nombreArchivo) {
-    std::ifstream archivo(nombreArchivo); // Abro el archivo en modo lectura
+void Aplicacion::cargarAlbumesCSV(const string& nombreArchivo) {
+    std::ifstream archivo(nombreArchivo);
     if (!archivo.is_open()) {
-        std::cerr << "Error al abrir el archivo " << nombreArchivo << std::endl;
+        cerr << "Error al abrir el archivo " << nombreArchivo << std::endl;
         return;
     }
-    std::string linea;
+
+    string linea;
     while (std::getline(archivo, linea)) {
         std::stringstream ss(linea);
-        std:: string idStr, titulo, anioStr, esDeEstudioStr, cancionesStr;
+        string idStr, titulo, anioStr, esDeEstudioStr, cancionesStr;
 
-        //Leer los valores separados por ;
         std::getline(ss, idStr, ';');
         std::getline(ss, titulo, ';');
         std::getline(ss, anioStr, ';');
         std::getline(ss, esDeEstudioStr, ';');
         std::getline(ss, cancionesStr, ';');
 
-        // Convertir a tipos adecuados
         int id = std::stoi(idStr);
         int anio = std::stoi(anioStr);
-        bool esDeEstudio =(esDeEstudioStr == "Si");
+        bool esDeEstudio = (esDeEstudioStr == "Si");
 
-        // Crear album
-        Album nuevoAlbum(id,titulo,anio,esDeEstudio);
+        Album nuevoAlbum(id, titulo, anio, esDeEstudio);
 
-        // Procesar canciones
-        cancionesStr.erase(0, 1); // Eliminar '{'
-        cancionesStr.pop_back();  // Eliminar '}'
+        cancionesStr.erase(0, 1);     // quitar '{'
+        cancionesStr.pop_back();      // quitar '}'
+
         std::stringstream ssCanciones(cancionesStr);
-        std::string idCancionStr;
+        string idCancionStr;
 
         while (std::getline(ssCanciones, idCancionStr, ';')) {
-                nuevoAlbum.agregarCancion(std::stoi(idCancionStr));
+            nuevoAlbum.agregarCancion(std::stoi(idCancionStr));
         }
 
-        // insertar el album de la lista enlazada
         listaAlbumes.insertarOrdenado(nuevoAlbum);
     }
+
     archivo.close();
 }
 
-void Aplicacion::cargarCancionesCSV(const std::string &nombreArchivo) {
+void Aplicacion::cargarCancionesCSV(const string& nombreArchivo) {
     std::ifstream archivo(nombreArchivo);
     if (!archivo.is_open()) {
-        std::cerr << "Error al abrir el archovo " << nombreArchivo << std::endl;
+        cerr << "Error al abrir el archivo " << nombreArchivo << std::endl;
         return;
     }
-    std::string linea;
+
+    string linea;
     while (std::getline(archivo, linea)) {
         std::stringstream ss(linea);
-        std::string idStr,albumIdStr,titulo,reproduccionesStr,duracion;
+        string idStr, albumIdStr, titulo, reproduccionesStr, duracion;
 
-        // Leer los valores separados por ;
         std::getline(ss, idStr, ';');
         std::getline(ss, albumIdStr, ';');
         std::getline(ss, titulo, ';');
         std::getline(ss, reproduccionesStr, ';');
         std::getline(ss, duracion, ';');
 
-        // Convertir a tipos adecuados
         int id = std::stoi(idStr);
-        int album = std::stoi(albumIdStr);
+        int albumId = std::stoi(albumIdStr);
         int reproducciones = std::stoi(reproduccionesStr);
 
-
-        // Crear la cancion y agregarla al gestor
-        Cancion nuevaCancion(id,album,titulo,reproducciones,duracion);
-        gestorCanciones.agregarCancion(nuevaCancion);
+        Cancion nuevaCancion(id, albumId, titulo, reproducciones, duracion);
+        // Aquí podrías insertarla en una lista si tienes una estructura como listaCanciones
     }
+
     archivo.close();
 }
-
 
 void Aplicacion::cargarDatos() {
     cargarAlbumesCSV("albumes.csv");
     cargarCancionesCSV("canciones.csv");
-    std::cout << "Datos cargados correctamente.\n";
+    cout << "Datos cargados correctamente.\n";
 }
 
 void Aplicacion::ejecutar() {
@@ -93,58 +95,63 @@ void Aplicacion::ejecutar() {
     mostrarMenu();
 }
 
-
 void Aplicacion::mostrarMenu() {
     int opcion;
+
     do {
         cout << "\n==== MENÚ PRINCIPAL ====\n";
-        cout << "1. Mostrar álbum\n";
-        cout << "2. Búsqueda avanzada de canciones\n";
-        cout << "3. Eliminar álbum\n";
+        cout << "1. Mostrar album\n";
+        cout << "2. Busqueda avanzada de canciones\n";
+        cout << "3. Eliminar album\n";
         cout << "4. Trivia\n";
-        cout << "5. Visualizar Álbumes (Opcional)\n";
+        cout << "5. Visualizar Albumes (Opcional)\n";
         cout << "6. Salir\n";
-        cout << "Seleccione una opción: ";
+        cout << "Seleccione una opcion: " << "\n";
         cin >> opcion;
 
         switch (opcion) {
-            case 1:
+            case 1: {
                 int id;
-                cout << "Ingrese el ID del album deseado: \n";
+                cout << "Ingrese el ID del album deseado: ";
                 cin >> id;
                 Album* album = listaAlbumes.buscarAlbum(id);
-                    if (album) {
-                        album ->mostrarInfo();
-                    }else {
-                        cout << "Album no encontrado :( \n";
-                    }
-                    break;
-            case 2:
-                cout << "Seguimos construyendo, vuelva pronto: \n";
+                if (album) {
+                    album->mostrarInfo();
+                } else {
+                    cout << "Album no encontrado.\n";
+                }
                 break;
-            case 3:
-                std::string titulo;
-                cout << "Ingrese el titulo del album: \n";
+            }
+
+            case 2: {
+                cout << "Seguimos construyendo, vuelva pronto.\n";
+                break;
+            }
+
+            case 3: {
+                string titulo;
+                cout << "Ingrese el titulo del álbum: ";
                 cin.ignore();
                 std::getline(cin, titulo);
-                    if (listaAlbumes.eliminarAlbum(album->getTitulo())) {
-                        cout << "Album eliminado con exito :) \n";
-                    }else {
-                        cout << "Album no encontrado :( \n";
-                    }
+                if (listaAlbumes.eliminarAlbum(std::move(titulo))) {
+                    cout << "Album eliminado con exito.\n";
+                } else {
+                    cout << "Album no encontrado.\n";
+                }
                 break;
-            case 4:
-                cout << "Seguimos construyendo, vuelva pronto: \n";
-                break;
-            case 5:
-                cout << "Seguimos construyendo, vuelva pronto: \n";
-                break;
-            case 6:
-                cout << "Saliendo... \n";
-                break;
-            default:
-                cout << "Opcion no valida! \n";
-        }
-    }while (opcion != 6);
+            }
 
+            case 4:
+            case 5:
+                cout << "Seguimos construyendo, vuelva pronto.\n";
+                break;
+
+            case 6:
+                cout << "Saliendo...\n";
+                break;
+
+            default:
+                cout << "Opción no válida.\n";
+        }
+    } while (opcion != 6);
 }

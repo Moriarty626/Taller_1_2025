@@ -7,4 +7,10 @@ add_executable(Taller_1_2025 main.cpp
         Aplicacion.h
         Aplicacion.cpp
         Album.h
-        Album.cpp)
+        Album.cpp
+        Cancion.h
+        Cancion.cpp
+        Lista_Enlazada_Albums.h
+        Lista_Enlazada_Albums.cpp
+        Lista_Enlazada_Canciones.h
+        Lista_Enlazada_Canciones.cpp)
