@@ -5,6 +5,9 @@
 
 class Cancion {
 private:
+    Cancion* canciones;
+    int cantidadCanciones;
+    int capacidadCanciones;
     int id_cancion;      // Identificador único de la canción
     int album_id;        // ID del álbum al que pertenece
     std::string titulo;  // Nombre de la canción
@@ -28,7 +31,7 @@ public:
     void mostrarInfo() const;
     // Sobrecarga de operadores
     bool operator<(const Cancion &otra) const; // Para ordenar por reproducciones
-
+    Cancion * getSiguiente();
 };
 
 

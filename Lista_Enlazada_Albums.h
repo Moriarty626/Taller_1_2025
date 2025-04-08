@@ -25,7 +25,4 @@ public:
     void mostrarListaAlbums();
 
 };
-
-
-
 #endif //LISTA_ENLAZADA_ALBUMS_H

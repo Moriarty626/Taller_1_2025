@@ -12,8 +12,11 @@ using std::cin;
 using std::cerr;
 using std::string;
 
+
+
 // Constructor
 Aplicacion::Aplicacion() {}
+
 
 void Aplicacion::cargarAlbumesCSV(const string& nombreArchivo) {
     std::ifstream archivo(nombreArchivo);
@@ -78,7 +81,8 @@ void Aplicacion::cargarCancionesCSV(const string& nombreArchivo) {
         int reproducciones = std::stoi(reproduccionesStr);
 
         Cancion nuevaCancion(id, albumId, titulo, reproducciones, duracion);
-       // listaCanciones.agregarCancion(nuevaCancion); Esto debo arreglarlo
+
+        listaCanciones.agregarCancion(nuevaCancion);
     }
 
     archivo.close();

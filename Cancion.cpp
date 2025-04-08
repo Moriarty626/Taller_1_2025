@@ -3,6 +3,9 @@
 
 // Constructor por defecto
 Cancion::Cancion() {
+    capacidadCanciones = 10; // Capacidad inicial
+    cantidadCanciones = 0;
+    canciones = (Cancion*)malloc(capacidadCanciones * sizeof(Cancion));
     id_cancion = 0;
     album_id = 0;
     titulo = "";

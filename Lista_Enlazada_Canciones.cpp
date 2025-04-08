@@ -1,125 +1,97 @@
-//
-// Created by mauri on 02-04-2025.
-//
-
 #include "Lista_Enlazada_Canciones.h"
-#include "Cancion.h"
 #include <iostream>
+using namespace std;
 
-// Constructor
 Lista_Enlazada_Canciones::Lista_Enlazada_Canciones() {
-    capacidad = 5;
-    cantidad = 0;
-    canciones = (Cancion*) malloc(capacidad * sizeof(Cancion));
-
-    if (!canciones) {
-        std::cerr << "Error: No se pudo asignar memoria." << std::endl;
-        exit(EXIT_FAILURE);
-    }
+    cabeza = nullptr;
 }
 
-
-// Destructor
 Lista_Enlazada_Canciones::~Lista_Enlazada_Canciones() {
-    free(canciones);  // Liberar la memoria asignada
-}
-
-
-// Método privado para redimensionar el arreglo dinámico
-void Lista_Enlazada_Canciones::redimensionar(int nuevaCapacidad) {
-    Cancion* nuevoArreglo = (Cancion*) realloc(canciones, nuevaCapacidad * sizeof(Cancion));
-
-    if (!nuevoArreglo) {
-        std::cerr << "Error: No se pudo redimensionar el arreglo." << std::endl;
-        exit(EXIT_FAILURE);
+    nodoCancion* actual = cabeza;
+    while (actual != nullptr) {
+        nodoCancion* temp = actual;
+        actual = actual->siguiente;
+        delete temp;
     }
-
-    canciones = nuevoArreglo;
-    capacidad = nuevaCapacidad;
 }
 
-// Agregar una canción al arreglo dinámico
-void Lista_Enlazada_Canciones::agregarCancion(const Cancion& nuevaCancion) {
-    // Si el arreglo está lleno, duplicamos la capacidad
-    if (cantidad == capacidad) {
-        redimensionar(capacidad * 2);
-    }
+void Lista_Enlazada_Canciones::insertarOrdenado(Cancion& nuevaCancion) {
+    nodoCancion* nuevoNodo = new nodoCancion(nuevaCancion);
 
-    // Copiar la nueva canción en el arreglo
-    canciones[cantidad] = nuevaCancion;
-    cantidad++;
-}
+    // Si la lista está vacía o el nuevo nodo va antes de la cabeza
+    if (!cabeza ||
+        cabeza->cancion.getAlbumId() > nuevaCancion.getAlbumId() ||
+        (cabeza->cancion.getAlbumId() == nuevaCancion.getAlbumId() && cabeza->cancion.getId() > nuevaCancion.getId())) {
 
-// Eliminar una canción por ID y reducir tamaño si es necesario
-bool Lista_Enlazada_Canciones::eliminarCancion(int id) {
-    int indice = -1;
-
-    // Buscar la canción en el arreglo
-    for (int i = 0; i < cantidad; i++) {
-        if (canciones[i].getId() == id) {
-            indice = i;
-            break;
+        nuevoNodo->siguiente = cabeza;
+        cabeza = nuevoNodo;
+        return;
         }
-    }
 
-    if (indice == -1) {
-        return false;  // No se encontró la canción
-    }
+    nodoCancion* actual = cabeza;
+    while (actual->siguiente &&
+          (actual->siguiente->cancion.getAlbumId() < nuevaCancion.getAlbumId() ||
+          (actual->siguiente->cancion.getAlbumId() == nuevaCancion.getAlbumId() &&
+           actual->siguiente->cancion.getId() < nuevaCancion.getId()))) {
 
-    // Mover los elementos hacia la izquierda para llenar el espacio vacío
-    for (int i = indice; i < cantidad - 1; i++) {
-        canciones[i] = canciones[i + 1];
-    }
+        actual = actual->siguiente;
+           }
 
-    cantidad--;
-
-    // Reducir la capacidad si hay demasiado espacio desperdiciado
-    if (cantidad < capacidad / 4 && capacidad > 5) {
-        redimensionar(capacidad / 2);
-    }
-
-    return true;
+    nuevoNodo->siguiente = actual->siguiente;
+    actual->siguiente = nuevoNodo;
 }
 
-// Buscar una canción por ID
+void Lista_Enlazada_Canciones::agregarCancion(Cancion& nuevaCancion) {
+    nodoCancion* nuevo = new nodoCancion(nuevaCancion);
+
+    if (cabeza == nullptr) {
+        cabeza = nuevo;
+    } else {
+        nodoCancion* actual = cabeza;
+        while (actual->siguiente != nullptr) {
+            actual = actual->siguiente;
+        }
+        actual->siguiente = nuevo;
+    }
+}
+
 Cancion* Lista_Enlazada_Canciones::buscarCancion(int id) {
-    for (int i = 0; i < cantidad; i++) {
-        if (canciones[i].getId() == id) {
-            return &canciones[i];
+    nodoCancion* actual = cabeza;
+    while (actual != nullptr) {
+        if (actual->cancion.getId() == id) {
+            return &(actual->cancion);
         }
+        actual = actual->siguiente;
     }
     return nullptr;
 }
 
-// Ordenar canciones por número de reproducciones (Bubble Sort)
-void Lista_Enlazada_Canciones::ordenarCanciones(bool ascendente) {
-    for (int i = 0; i < cantidad - 1; i++) {
-        for (int j = 0; j < cantidad - i - 1; j++) {
-            bool condicion = ascendente ? canciones[j].getReproducciones() > canciones[j + 1].getReproducciones()
-                                        : canciones[j].getReproducciones() < canciones[j + 1].getReproducciones();
-            if (condicion) {
-                Cancion temp = canciones[j];
-                canciones[j] = canciones[j + 1];
-                canciones[j + 1] = temp;
+bool Lista_Enlazada_Canciones::eliminarCancion(int id) {
+    nodoCancion* actual = cabeza;
+    nodoCancion* anterior = nullptr;
+
+    while (actual != nullptr) {
+        if (actual->cancion.getId() == id) {
+            if (anterior == nullptr) {
+                cabeza = actual->siguiente;
+            } else {
+                anterior->siguiente = actual->siguiente;
             }
+            delete actual;
+            return true;
         }
+        anterior = actual;
+        actual = actual->siguiente;
+    }
+    return false;
+}
+
+void Lista_Enlazada_Canciones::mostrarTodas() {
+    nodoCancion* actual = cabeza;
+    while (actual != nullptr) {
+        actual->cancion.mostrarInfo();
+        actual = actual->siguiente;
     }
 }
 
-// Mostrar todas las canciones
-void Lista_Enlazada_Canciones::mostrarCanciones() const {
-    for (int i = 0; i < cantidad; i++) {
-        canciones[i].mostrarInfo();
-    }
-}
 
-// Mostrar la información de una canción específica por ID
-void Lista_Enlazada_Canciones::mostrarInfoCancion(int id) const {
-    for (int i = 0; i < cantidad; i++) {
-        if (canciones[i].getId() == id) {
-            canciones[i].mostrarInfo();
-            return;
-        }
-    }
-    std::cout << "Cancion con ID " << id << " no encontrada." << std::endl;
-}
