@@ -58,17 +58,23 @@ void Aplicacion::cargarAlbumesCSV(const string& nombreArchivo) {
     archivo.close();
 }
 
-void Aplicacion::cargarCancionesCSV(const string& nombreArchivo) {
+void Aplicacion::cargarCancionesCSV(const std::string& nombreArchivo) {
     std::ifstream archivo(nombreArchivo);
     if (!archivo.is_open()) {
-        cerr << "Error al abrir el archivo " << nombreArchivo << std::endl;
+        std::cerr << "Error al abrir el archivo " << nombreArchivo << std::endl;
         return;
     }
 
-    string linea;
+    std::string linea;
+    int numeroLinea = 0;
+
     while (std::getline(archivo, linea)) {
+        numeroLinea++;
+
+        if (linea.empty()) continue;  // Saltar líneas vacías
+
         std::stringstream ss(linea);
-        string idStr, albumIdStr, titulo, reproduccionesStr, duracion;
+        std::string idStr, albumIdStr, titulo, reproduccionesStr, duracion;
 
         std::getline(ss, idStr, ';');
         std::getline(ss, albumIdStr, ';');
@@ -76,13 +82,22 @@ void Aplicacion::cargarCancionesCSV(const string& nombreArchivo) {
         std::getline(ss, reproduccionesStr, ';');
         std::getline(ss, duracion, ';');
 
-        int id = std::stoi(idStr);
-        int albumId = std::stoi(albumIdStr);
-        int reproducciones = std::stoi(reproduccionesStr);
+        try {
+            int id = std::stoi(idStr);
+            int albumId = std::stoi(albumIdStr);
+            int reproducciones = std::stoi(reproduccionesStr);
 
-        Cancion nuevaCancion(id, albumId, titulo, reproducciones, duracion);
-
-        listaCanciones.agregarCancion(nuevaCancion);
+            Cancion nuevaCancion(id, albumId, titulo, reproducciones, duracion);
+            listaCanciones.insertarOrdenado(nuevaCancion);
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Error de conversion en la linea " << numeroLinea
+                      << ": " << linea << std::endl;
+            continue; // Salta esta línea
+        } catch (const std::out_of_range& e) {
+            std::cerr << "Numero fuera de rango en la linea " << numeroLinea
+                      << ": " << linea << std::endl;
+            continue;
+        }
     }
 
     archivo.close();
@@ -90,7 +105,7 @@ void Aplicacion::cargarCancionesCSV(const string& nombreArchivo) {
 
 void Aplicacion::cargarDatos() {
     cargarAlbumesCSV("D:/Taller_1_2025/albumes.csv");
-    cargarCancionesCSV("C:/Taller_1_2025/canciones.csv");
+    cargarCancionesCSV("D:/Taller_1_2025/canciones.csv");
     cout << "Datos cargados correctamente.\n";
 }
 
@@ -134,7 +149,7 @@ void Aplicacion::mostrarMenu() {
 
             case 3: {
                 string titulo;
-                cout << "Ingrese el titulo del álbum: ";
+                cout << "Ingrese el titulo del album: ";
                 cin.ignore();
                 std::getline(cin, titulo);
                 if (listaAlbumes.eliminarAlbum(std::move(titulo))) {
